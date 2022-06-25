@@ -1,0 +1,35 @@
+- hosts: all
+  tasks:
+    - name: Install apache packages 
+      yum:
+        name: httpd
+        state: latest
+
+    - name: ensure httpd is running
+      systemd:
+        name: httpd 
+        state: started
+        enabled: yes
+
+    - name: Install unzip
+      yum:
+        name: unzip
+        state: latest
+
+    - name: Extract a file
+      unarchive:
+        src: https://www.free-css.com/assets/files/free-css-templates/download/page272/evolve.zip
+        dest: /var/www/html
+        remote_src: yes
+
+
+    - name: Disable SELinux
+      selinux:
+        state: disabled 
+
+
+    - name: Install git
+      yum:
+       name: git
+       state: present
+       update_cache: yes
